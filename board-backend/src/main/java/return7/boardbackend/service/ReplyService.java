@@ -38,12 +38,12 @@ public class ReplyService {
     /**
      * 댓글 작성
      */
-    public ResponseReplyDto create(RequestReplyDto replyDto) {
+    public ResponseReplyDto create(RequestReplyDto replyDto, CustomUserDetails customUserDetails) {
         Reply reply = Reply.builder()
                 .content(replyDto.getContent())
                 .board(boardRepository.findById(replyDto.getBoardId())
                         .orElseThrow(() -> new BoardNotFoundException("게시글을 찾을 수 없습니다.")))
-                .writer(userRepository.findById(replyDto.getWriterId())
+                .writer(userRepository.findById(customUserDetails.getUserId())
                         .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다.")))
                 .parent(replyRepository.findById(replyDto.getParentId())
                         .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다.")))
@@ -51,7 +51,6 @@ public class ReplyService {
         Reply saved = replyRepository.save(reply);
         return ResponseReplyDto.from(saved);
     }
-
 
     /**
      * 댓글 수정
@@ -132,15 +131,22 @@ public class ReplyService {
     /**
      * 댓글 채택
      */
-    public boolean selectReply(Long replyId) {
+    public boolean selectReply(Long replyId, CustomUserDetails CustomUserDetails) {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다."));
         Board board = boardRepository.findById(reply.getBoard().getId())
                 .orElseThrow(() -> new BoardNotFoundException("게시글을 찾을 수 없습니다."));;
+        User loginUser = userRepository.findById(CustomUserDetails.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다."));
+
+        if (loginUser != board.getWriter()) {
+            throw new WriterNotMatchException("권한이 없습니다."); // 에러 목록 추가사항
+        }
 
         if(board.isSelected()) {
             throw new ReplyAlreadyAcceptedException("이미 채택된 댓글이 있습니다.");
         }
+
         reply.setSelected(true);
         return true;
     }
