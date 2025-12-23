@@ -34,7 +34,7 @@ public class ReplyController {
     /**
      * 댓글 수정 Api
      */
-    @PatchMapping
+    @PatchMapping("/update")
     public ResponseEntity<ResponseReplyDto> updateReply(
             @RequestBody ResponseReplyDto replyDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -45,7 +45,7 @@ public class ReplyController {
     /**
      * soft 삭제
      */
-    @PatchMapping
+    @PatchMapping("/softDelete")
     public ResponseEntity<ResponseReplyDto> softDeleteReply(
             @RequestBody RequestReplyDto replyDto,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
