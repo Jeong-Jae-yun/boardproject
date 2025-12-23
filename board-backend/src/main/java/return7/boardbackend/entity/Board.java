@@ -24,6 +24,7 @@ public class Board {
     private String content;
     private int viewCount;
     private int recommendation;
+    private boolean selected;
 
     private int upCount;
     private int downCount;

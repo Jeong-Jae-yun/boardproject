@@ -27,9 +27,14 @@ public class User {
     private String nickName;
 
     @OneToMany(mappedBy = "writer")
+    private String Authority;
+
+    @OneToMany(mappedBy = "writer")
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
     private List<Reply> replies = new ArrayList<>();
+
+
 
 }
