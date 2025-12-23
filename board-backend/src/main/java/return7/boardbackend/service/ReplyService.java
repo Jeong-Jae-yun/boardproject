@@ -43,7 +43,7 @@ public class ReplyService {
                 .content(replyDto.getContent())
                 .board(boardRepository.findById(replyDto.getBoardId()).orElse(null))
                 .writer(userRepository.findById(replyDto.getWriterId())
-                        .orElseThrow(() -> new UserNotFoundException("답글을 찾을 수 없습니다.")))
+                        .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다.")))
                 .parent(replyRepository.findById(replyDto.getParentId())
                         .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다.")))
                 .build();
@@ -150,7 +150,7 @@ public class ReplyService {
      */
     public VoteResult voteReply(Long replyId, CustomUserDetails CustomUserDetails) {
         User voteUser = userRepository.findById(CustomUserDetails.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("답글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다."));
         Reply targetReply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다."));
 
@@ -177,7 +177,7 @@ public class ReplyService {
      */
     public VoteResult downVoteReply(Long replyId, CustomUserDetails CustomUserDetails) {
         User voteUser =userRepository.findById(CustomUserDetails.getUserId())
-                .orElseThrow(() -> new UserNotFoundException("답글을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다."));
         Reply targetReply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다."));
 
