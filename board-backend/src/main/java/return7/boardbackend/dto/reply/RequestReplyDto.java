@@ -10,7 +10,6 @@ import lombok.Setter;
 public class RequestReplyDto {
     private Long id;
     private Long boardId;
-    private Long writerId;
     private Long parentId;
     private String content;
 }
