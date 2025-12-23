@@ -7,9 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Getter
-@Setter
+@Entity @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder //추후 확인
@@ -34,7 +32,15 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User writer;
+
+    public void update(String title,String content){
+        this.title=title;
+        this.content=content;
+    }
+    public void increaseViewCount(){
+        this.viewCount++;
+    }
 
 }
