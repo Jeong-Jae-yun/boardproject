@@ -88,7 +88,7 @@ public class ReplyService {
         }
         // 추후 삭제 여부 고민
         if (reply.isDeleted()) {
-            throw new RuntimeException("이미 삭제된 댓글입니다.");
+            throw new AlreadyDeletedReplyException("이미 삭제된 댓글입니다.");
         }
         reply.setDeleted(true);
         Reply saved = replyRepository.save(reply);
@@ -139,6 +139,7 @@ public class ReplyService {
 
         if(board.isSelected()) {
             throw new RuntimeException("이미 채택된 댓글이 있습니다.");
+            // ReplyAlreadyAcceptedException
         }
         reply.setSelected(true);
         return true;
