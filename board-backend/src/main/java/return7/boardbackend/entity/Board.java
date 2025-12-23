@@ -25,6 +25,7 @@ public class Board {
     private String content;
     private int viewCount;
     private int recommendation;
+    private boolean selected;
 
     @Column(name = "created_at")
     @Builder.Default

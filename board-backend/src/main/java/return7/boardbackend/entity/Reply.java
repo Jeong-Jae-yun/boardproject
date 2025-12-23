@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * 답글 Entity
  */
 @Entity
-@Table(name = "replys")
+@Table(name = "replies")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -32,6 +32,9 @@ public class Reply {
 
     @Builder.Default
     private int recommendation = 0;
+
+    @Builder.Default
+    private int disrecommendation = 0;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

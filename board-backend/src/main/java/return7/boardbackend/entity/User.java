@@ -26,10 +26,14 @@ public class User {
     @Column(nullable = false)
     private String nickName;
 
+    private String Authority;
+
     @OneToMany(mappedBy = "user")
     private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Reply> replies = new ArrayList<>();
+
+
 
 }
