@@ -41,7 +41,8 @@ public class ReplyService {
     public ResponseReplyDto create(RequestReplyDto replyDto) {
         Reply reply = Reply.builder()
                 .content(replyDto.getContent())
-                .board(boardRepository.findById(replyDto.getBoardId()).orElse(null))
+                .board(boardRepository.findById(replyDto.getBoardId())
+                        .orElseThrow(() -> new BoardNotFoundException("게시글을 찾을 수 없습니다.")))
                 .writer(userRepository.findById(replyDto.getWriterId())
                         .orElseThrow(() -> new UserNotFoundException("유저를 찾을 수 없습니다.")))
                 .parent(replyRepository.findById(replyDto.getParentId())
@@ -135,11 +136,10 @@ public class ReplyService {
         Reply reply = replyRepository.findById(replyId)
                 .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다."));
         Board board = boardRepository.findById(reply.getBoard().getId())
-                .orElseThrow(() -> new ReplyNotFoundException("답글을 찾을 수 없습니다."));;
+                .orElseThrow(() -> new BoardNotFoundException("게시글을 찾을 수 없습니다."));;
 
         if(board.isSelected()) {
-            throw new RuntimeException("이미 채택된 댓글이 있습니다.");
-            // ReplyAlreadyAcceptedException
+            throw new ReplyAlreadyAcceptedException("이미 채택된 댓글이 있습니다.");
         }
         reply.setSelected(true);
         return true;
